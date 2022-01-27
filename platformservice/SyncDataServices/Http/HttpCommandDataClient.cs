@@ -10,15 +10,16 @@ using System.Threading.Tasks;
 
 namespace platformservice.SyncDataServices.Http
 {
-    interface HttpCommandDataClient
-    {
+    
         public class HttpCommandDataClient : ICommandDataClient
         {
             private readonly HttpClient _httpClient;
+            private readonly IConfiguration _configuration;
 
             public HttpCommandDataClient(HttpClient httpClient, IConfiguration configuration)
             {
                 _httpClient = httpClient;
+                _configuration = configuration;
             }
             public async Task SendPlatformToCommand(PlatformReadDto plat)
             {
@@ -27,7 +28,7 @@ namespace platformservice.SyncDataServices.Http
                     Encoding.UTF8,
                     "application/json");
 
-                var response = await _httpClient.PostAsync("http://localhost:6000/api/c/platforms/", httpContent);
+                var response = await _httpClient.PostAsync($"{_configuration["CommandService"]}", httpContent);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -40,4 +41,4 @@ namespace platformservice.SyncDataServices.Http
             }
         }
     }
-}
+

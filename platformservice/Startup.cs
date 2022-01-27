@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using platformservice.Profiles;
+using platformservice.SyncDataServices.Http;
 using PlatformService.Data;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,8 @@ namespace platformservice
             services.AddDbContext<AppDbContext>(opt =>
             opt.UseInMemoryDatabase("InMem"));
             services.AddScoped<IPlatformRepo, PlatformRepo>();
+
+            services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
             services.AddControllersWithViews();
 
             var mappingConfig = new MapperConfiguration(mc =>
@@ -41,6 +44,7 @@ namespace platformservice
             services.AddSingleton(mapper);
 
             services.AddMvc();
+
 
         }
 
