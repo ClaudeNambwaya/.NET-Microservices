@@ -44,6 +44,7 @@ namespace platformservice
             services.AddSingleton(mapper);
 
             services.AddMvc();
+            Console.WriteLine($"--> CommandService Endpoint {Configuration["CommandService"]}");
 
 
         }

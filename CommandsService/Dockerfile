@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["platformservice.csproj", "."]
-RUN dotnet restore "./platformservice.csproj"
+COPY ["CommandsService.csproj", "."]
+RUN dotnet restore "./CommandsService.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "platformservice.csproj" -c Release -o /app/build
+RUN dotnet build "CommandsService.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "platformservice.csproj" -c Release -o /app/publish
+RUN dotnet publish "CommandsService.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "platformservice.dll"]
+ENTRYPOINT ["dotnet", "CommandsService.dll"]
